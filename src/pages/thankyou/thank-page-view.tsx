@@ -21,23 +21,23 @@ export { getStaticProps } from '@/framework/general.ssr';
 export default function ThankyouPageView({ checkout_data }: any) {
   const { price: total_amount } = usePrice({
     amount: checkout_data?.amount,
-    currencyValue: checkout_data.currency,
+    currencyValue: checkout_data?.currency,
   });
   const { price: sub_total } = usePrice({
     amount: checkout_data?.amount_breakdown?.['Sub Total'],
-    currencyValue: checkout_data.currency,
+    currencyValue: checkout_data?.currency,
   });
   const { price: shipping_charge } = usePrice({
     amount: checkout_data?.amount_breakdown?.['Shipping Charge'],
-    currencyValue: checkout_data.currency,
+    currencyValue: checkout_data?.currency,
   });
   const { price: tax } = usePrice({
     amount: checkout_data?.amount_breakdown?.['Tax'],
-    currencyValue: checkout_data.currency,
+    currencyValue: checkout_data?.currency,
   });
   const { price: discount } = usePrice({
     amount: checkout_data?.amount_breakdown?.['Discount'],
-    currencyValue: checkout_data.currency,
+    currencyValue: checkout_data?.currency,
   });
   return (
     <>

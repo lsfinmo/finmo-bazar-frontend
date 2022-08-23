@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rimraf \"{.next,node_modules,__generated__,.cache,src/framework/graphql/**/*.d.ts}\"",
     "dev:rest": "next dev -p 3004",
-    "start": "next build",
+    "start": "next start",
     "codegen": "node -r dotenv/config $(yarn bin)/graphql-let",
     "dev:gql": "yarn codegen && next dev -p 3001",
     "build:gql": "yarn codegen && next build",

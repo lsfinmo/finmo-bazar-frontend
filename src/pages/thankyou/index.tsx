@@ -42,23 +42,46 @@ export default function ThankyouPage() {
     const auth_string: string = window.btoa(`${access_key}:${secret_key}`);
     const auth_token: string = `Basic ${auth_string}`;
 
-    const {
-      data: { data: checkout_data },
-    } = await axios.get(`https://api.qafinmo.net/v1/checkout/${checkout_id}`, {
-      headers: {
-        Authorization: auth_token,
-        'x-env': 'sandbox',
-        'Content-Type': 'application/json',
-      },
-    });
-    if (
-      checkout_data?.status !== 'CANCELLED' ||
-      checkout_data?.status !== 'FAILED'
-    ) {
-      resetCart();
-      resetCheckout();
+    try {
+      const {
+        data: { data: checkout_data },
+      } = await axios.get(
+        `https://api.qafinmo.net/v1/checkout/${checkout_id}`,
+        {
+          headers: {
+            Authorization: auth_token,
+            'x-env': 'sandbox',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (
+        checkout_data?.status !== 'CANCELLED' ||
+        checkout_data?.status !== 'FAILED'
+      ) {
+        resetCart();
+        resetCheckout();
+      }
+      setCheckoutData(checkout_data);
+    } catch (error) {
+      const apiErrorMessage = (error: any) => {
+        if (
+          Array.isArray(
+            error?.response && error?.response?.data?.error?.message
+          )
+        ) {
+          const message =
+            error?.response && error?.response?.data?.error?.message;
+          return message.join(' , ');
+        } else if (error?.response && error?.response?.data?.message) {
+        } else {
+          return error?.response && error?.response?.data?.error
+            ? error?.response?.data?.error?.message
+            : error?.message;
+        }
+      };
+      toast.error(apiErrorMessage(error));
     }
-    setCheckoutData(checkout_data);
 
     setFetchData(false);
   }, [checkout_id]);

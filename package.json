@@ -11,6 +11,7 @@
     "build:gql": "yarn codegen && next build",
     "lint": "next lint",
     "postbuild:rest": "next-sitemap",
+    "postinstall": "tsc",
     "prepare": "husky install"
   },
   "dependencies": {

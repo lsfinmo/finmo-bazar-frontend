@@ -33,9 +33,9 @@ const CartSidebarView = () => {
     amount: total,
   });
   return (
-    <section className="flex flex-col h-full relative">
-      <header className="fixed max-w-md w-full top-0 z-10 bg-light py-4 px-6 flex items-center justify-between border-b border-border-200 border-opacity-75">
-        <div className="flex text-accent font-semibold">
+    <section className="relative flex h-full flex-col">
+      <header className="fixed top-0 z-10 flex w-full max-w-md items-center justify-between border-b border-border-200 border-opacity-75 bg-light py-4 px-6">
+        <div className="flex font-semibold text-accent">
           <CartCheckBagIcon className="shrink-0" width={24} height={22} />
           <span className="flex ltr:ml-2 rtl:mr-2">
             {formatString(totalUniqueItems, t('text-item'))}
@@ -43,10 +43,10 @@ const CartSidebarView = () => {
         </div>
         <button
           onClick={() => closeSidebar({ display: false, view: '' })}
-          className="w-7 h-7 ltr:ml-3 rtl:mr-3 ltr:-mr-2 rtl:-ml-2 flex items-center justify-center rounded-full text-muted bg-gray-100 transition-all duration-200 focus:outline-none hover:bg-accent focus:bg-accent hover:text-light focus:text-light"
+          className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-muted transition-all duration-200 hover:bg-accent hover:text-light focus:bg-accent focus:text-light focus:outline-none ltr:ml-3 ltr:-mr-2 rtl:mr-3 rtl:-ml-2"
         >
           <span className="sr-only">{t('text-close')}</span>
-          <CloseIcon className="w-3 h-3" />
+          <CloseIcon className="h-3 w-3" />
         </button>
       </header>
       {/* End of cart header */}
@@ -62,7 +62,7 @@ const CartSidebarView = () => {
               animate="to"
               exit="from"
               variants={fadeInOut(0.25)}
-              className="h-full flex flex-col items-center justify-center"
+              className="flex h-full flex-col items-center justify-center"
             >
               <EmptyCartIcon width={140} height={176} />
               <h4 className="mt-6 text-base font-semibold">
@@ -75,15 +75,16 @@ const CartSidebarView = () => {
       {/* End of cart items */}
 
       {/* <footer className="sticky ltr:left-0 rtl:right-0 bottom-0 w-full py-5 px-6 z-10 bg-light"> */}
-      <footer className="fixed bottom-0 w-full max-w-md py-5 px-6 z-10 bg-light">
+      <footer className="fixed bottom-0 z-10 w-full max-w-md bg-light py-5 px-6">
         <button
-          className="flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-accent rounded-full shadow-700 transition-colors focus:outline-none hover:bg-accent-hover focus:bg-accent-hover"
+          className="flex h-12 w-full justify-between rounded-full bg-accent p-1 text-sm font-bold shadow-700 transition-colors hover:bg-accent-hover focus:bg-accent-hover focus:outline-none md:h-14"
+          disabled={items.length === 0}
           onClick={handleCheckout}
         >
-          <span className="flex flex-1 items-center h-full px-5 text-light">
+          <span className="flex h-full flex-1 items-center px-5 text-light">
             {t('text-checkout')}
           </span>
-          <span className="flex items-center shrink-0 h-full bg-light text-accent rounded-full px-5">
+          <span className="flex h-full shrink-0 items-center rounded-full bg-light px-5 text-accent">
             {totalPrice}
           </span>
         </button>

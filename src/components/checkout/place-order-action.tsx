@@ -15,6 +15,7 @@ import {
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { useLocalStorage } from '@/lib/use-local-storage';
 
 export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -40,6 +41,11 @@ export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
   ] = useAtom(checkoutAtom);
   const [discount] = useAtom(discountAtom);
   const [use_wallet_points] = useAtom(walletAtom);
+  const [saved_access_key, saveAccessKey] =
+    useLocalStorage<string>('access_key');
+  const [saved_secret_key, saveSecretKey] =
+    useLocalStorage<string>('secret_key');
+  const [saved_currency, saveCurrency] = useLocalStorage<string>('currency');
 
   useEffect(() => {
     setErrorMessage(null);
@@ -96,8 +102,8 @@ export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
     };
     if (payment_gateway === 'FINMO_CHECKOUT') {
       //@ts-ignore
-      const access_key = localStorage.getItem('access_key');
-      const secret_key = localStorage.getItem('secret_key');
+      const access_key = saved_access_key;
+      const secret_key = saved_secret_key;
       if (!access_key && !secret_key) {
         toast.error('FINMO ACCESS KEY and SECRET KEY is required');
         return;
@@ -110,7 +116,7 @@ export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
         AUD: 'AU',
       };
 
-      const currency_data: string = localStorage.getItem('currency') || 'AUD';
+      const currency_data: string = saved_currency || 'AUD';
       const checkout_data = {
         amount: input.paid_total,
         amount_breakdown: {

@@ -20,6 +20,7 @@ import { useCart } from '@/store/quick-cart/cart.context';
 import { useAtom } from 'jotai';
 export { getStaticProps } from '@/framework/general.ssr';
 import { clearCheckoutAtom } from '@/store/checkout';
+import { useLocalStorage } from '@/lib/use-local-storage';
 
 export default function ThankyouPage() {
   const router = useRouter();
@@ -30,10 +31,14 @@ export default function ThankyouPage() {
   const {
     query: { checkout_id, status },
   } = router;
+  const [saved_access_key, saveAccessKey] =
+    useLocalStorage<string>('access_key');
+  const [saved_secret_key, saveSecretKey] =
+    useLocalStorage<string>('secret_key');
 
   const getCheckoutData = useCallback(async () => {
-    const access_key = localStorage.getItem('access_key');
-    const secret_key = localStorage.getItem('secret_key');
+    const access_key = JSON.parse(saved_access_key || '');
+    const secret_key = JSON.parse(saved_secret_key || '');
     if (!access_key && !secret_key) {
       toast.error('FINMO ACCESS KEY and SECRET KEY is required');
       return;

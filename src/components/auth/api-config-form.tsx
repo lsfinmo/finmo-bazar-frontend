@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
 import Select from '../ui/select/select';
 import { useState } from 'react';
-
+import { useLocalStorage } from '@/lib/use-local-storage';
 const loginFormSchema = yup.object().shape({
   access_key: yup.string().required('Access Key is Required'),
   secret_key: yup.string().required('Secret Key is Required'),
@@ -28,15 +28,20 @@ function LoginForm() {
   const { openModal, closeModal } = useModalAction();
   const isCheckout = router.pathname.includes('checkout');
   const { mutate: login, isLoading, serverError, setServerError } = useLogin();
+  const [saved_access_key, saveAccessKey] =
+    useLocalStorage<string>('access_key');
+  const [saved_secret_key, saveSecretKey] =
+    useLocalStorage<string>('secret_key');
+  const [saved_currency, saveCurrency] = useLocalStorage<string>('currency');
   const [currency, setCurrency] = useState({
-    label: localStorage.getItem('currency') || 'AUD',
-    value: localStorage.getItem('currency') || 'AUD',
+    label: saved_currency || 'AUD',
+    value: saved_currency || 'AUD',
   });
 
   function onSubmit({ access_key, secret_key }: ApiConfigInput) {
-    localStorage.setItem('access_key', access_key);
-    localStorage.setItem('secret_key', secret_key);
-    localStorage.setItem('currency', currency.value);
+    saveAccessKey(access_key);
+    saveSecretKey(secret_key);
+    saveCurrency(currency.value);
     closeModal();
     router.reload();
   }
@@ -61,14 +66,14 @@ function LoginForm() {
               {...register('access_key')}
               variant="outline"
               className="mb-5"
-              defaultValue={localStorage.getItem('access_key') || ''}
+              defaultValue={saved_access_key || ''}
               error={t(errors.access_key?.message!)}
             />
             <Input
               label={'Secret Key'}
               {...register('secret_key')}
               variant="outline"
-              defaultValue={localStorage.getItem('secret_key') || ''}
+              defaultValue={saved_secret_key || ''}
               className="mb-5"
               error={t(errors.secret_key?.message!)}
             />

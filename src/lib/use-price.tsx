@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSettings } from '@/framework/settings';
+import { useLocalStorage } from '@/lib/use-local-storage';
 
 export function formatPrice({
   amount,
@@ -53,8 +54,10 @@ export default function usePrice(
 ) {
   const [currencyCode, setCurrency] = useState('AUD');
   const { amount, baseAmount, currencyValue } = data ?? {};
+  const [saved_currency, saveCurrency] = useLocalStorage<string>('currency');
+
   useEffect(() => {
-    setCurrency(currencyValue || localStorage.getItem('currency') || 'AUD');
+    setCurrency(currencyValue || saved_currency || 'AUD');
   }, []);
 
   const { locale } = useRouter();

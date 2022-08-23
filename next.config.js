@@ -8,6 +8,14 @@ const nextConfig = {
   env: {
     FRAMEWORK_PROVIDER: process.env.FRAMEWORK_PROVIDER,
     NEXT_PUBLIC_REST_API_ENDPOINT: process.env.NEXT_PUBLIC_REST_API_ENDPOINT,
+    NEXT_PUBLIC_GRAPHQL_API_ENDPOINT:
+      process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_ADMIN_URL: process.env.NEXT_PUBLIC_ADMIN_URL,
+    SECRET: process.env.SECRET,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
   pwa: {
     disable: process.env.NODE_ENV === 'development',

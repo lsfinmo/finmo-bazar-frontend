@@ -5,6 +5,10 @@ const { i18n } = require('./next-i18next.config');
 const nextConfig = {
   reactStrictMode: true,
   i18n,
+  env: {
+    FRAMEWORK_PROVIDER: process.env.FRAMEWORK_PROVIDER,
+    NEXT_PUBLIC_REST_API_ENDPOINT: process.env.NEXT_PUBLIC_REST_API_ENDPOINT,
+  },
   pwa: {
     disable: process.env.NODE_ENV === 'development',
     dest: 'public',

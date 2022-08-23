@@ -21,7 +21,7 @@ const SocialLogin = () => {
   // When rendering client side don't display anything until loading is complete
   if (typeof window !== 'undefined' && loading) return null;
 
-  return <div>{error}</div>;
+  return <div>{'asdfsadf'}</div>;
 };
 
 export default SocialLogin;
